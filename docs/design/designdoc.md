@@ -30,6 +30,7 @@ More granular requirements such as use cases and user stories will be managed vi
     - Who the card is signed by
     - If the card is available for trade or sale
     - Additional notes
+4. Users should be able to search for cards via a search box.
 
 
 ## Non-Functional Requirements
