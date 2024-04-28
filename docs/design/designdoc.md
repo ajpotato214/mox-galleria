@@ -37,3 +37,4 @@ More granular requirements such as use cases and user stories will be managed vi
 1. Card metadata should be sourced from a reliable and trustworthy source such as Scryfall or Gatherer.
 
 ## Extended Requirements
+1. Implement Scryfall search syntax
