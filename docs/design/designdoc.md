@@ -18,6 +18,7 @@ The goal is to create a website that showcases my personal collection in _one_ p
 More granular requirements such as use cases and user stories will be managed via a more robust tracking system such as Trello or Jira with a link to be provided at a later date.
 
 ## Functional Requirements
+1. A user should be able to view the collection via various view styles including: Gallery view, List view, Magazine View.
 
 ## Non-Functional Requirements
 
