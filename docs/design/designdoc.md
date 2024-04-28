@@ -14,7 +14,7 @@ The goal is to create a website that showcases my personal collection in _one_ p
 - **Gatherer** - The official Magic: The Gathering card database hosted by Wizards of the Coast
 - **MTG** - abbreviation for Magic: The Gathering
 - **Scryfall** - A community run Magic: The Gathering search website
-- **Signed Card** - A collectible trading that has been autographed by the original artist or other noteworthy person
+- **Signed Card** - A collectible trading card that has been autographed by the original artist or other noteworthy person
 
 # High-Level Requirements
 More granular requirements such as use cases and user stories will be managed via a more robust tracking system such as Trello or Jira with a link to be provided at a later date.
