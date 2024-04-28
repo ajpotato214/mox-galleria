@@ -38,3 +38,4 @@ More granular requirements such as use cases and user stories will be managed vi
 
 ## Extended Requirements
 1. Implement Scryfall search syntax
+2. Implement search box autocomplete
