@@ -20,6 +20,15 @@ More granular requirements such as use cases and user stories will be managed vi
 ## Functional Requirements
 1. A user should be able to view the collection via various view styles including: Gallery view, List view, Magazine View.
 2. A user that clicks on a an alter or signed card should be redirected to a detailed product page for the card.
+3. The detailed product page for a card should contain: 
+    - Additional photos if available
+    - Card metadata (set, number, rarity, card text, original artist, etc)
+    - Condition
+    - Alter artist name
+    - Who the card is signed by
+    - If the card is available for trade or sale
+    - Additional notes
+
 
 ## Non-Functional Requirements
 
