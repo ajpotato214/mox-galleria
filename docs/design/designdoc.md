@@ -13,3 +13,12 @@ The goal is to create a website that showcases my personal collection in _one_ p
 - Alter - A collectibe trading card that has been artisitcally altered or customized by an artist, usually hand painted or hand drawn.
 - MTG - abbreviation for Magic: The Gathering
 - Signed Card - A collectible trading that has been autographed by the original artist or other noteworthy person.
+
+# High-Level Requirements
+More granular requirements such as use cases and user stories will be managed via a more robust tracking system such as Trello or Jira with a link to be provided at a later date.
+
+## Functional Requirements
+
+## Non-Functional Requirements
+
+## Extended Requirements
