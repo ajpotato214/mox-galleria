@@ -19,6 +19,7 @@ More granular requirements such as use cases and user stories will be managed vi
 
 ## Functional Requirements
 1. A user should be able to view the collection via various view styles including: Gallery view, List view, Magazine View.
+2. A user that clicks on a an alter or signed card should be redirected to a detailed product page for the card.
 
 ## Non-Functional Requirements
 
