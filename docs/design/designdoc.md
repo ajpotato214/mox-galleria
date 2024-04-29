@@ -41,3 +41,21 @@ More granular requirements such as use cases and user stories will be managed vi
 2. Implement search box autocomplete
 
 # High-Level Design
+## Schema Design
+
+```
+{
+    "set_id": 1, // partition key
+    "card_id": "018f27f1-6558-7d50-9287-c6223f74683c", // sort key
+    "collection_name": "Cantrip Cartel",
+    "alter_artist": "GK Alters",
+    "signed_by": null,
+    "condition": "LP",
+    "for_sale": false,
+    "for_trade": false,
+    "notes": "My very first comissioned alter",
+    "scryfall": {
+        ... // sourced Scryfall data
+    }
+}
+```
