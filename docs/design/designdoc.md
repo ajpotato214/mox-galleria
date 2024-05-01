@@ -51,14 +51,10 @@ Proposed DynamoDB Table Schema:
 
 ```
 {
-    "TableName": "mox_galleria",
+      "TableName": "mox_galleria",
       "KeyAttributes": {
         "PartitionKey": {
-          "AttributeName": "set_id",
-          "AttributeType": "N"
-        },
-        "SortKey": {
-          "AttributeName": "card_id",
+          "AttributeName": "alter_id",
           "AttributeType": "S"
         }
       },
@@ -72,8 +68,8 @@ Proposed DynamoDB Table Schema:
           "AttributeType": "S"
         },
         {
-          "AttributeName": "collection_name",
-          "AttributeType": "S"
+          "AttributeName": "playset_id",
+          "AttributeType": "N"
         },
         {
           "AttributeName": "alter_artist",
@@ -81,6 +77,10 @@ Proposed DynamoDB Table Schema:
         },
         {
           "AttributeName": "commission_date",
+          "AttributeType": "N"
+        },
+        {
+          "AttributeName": "commission_price_usd",
           "AttributeType": "N"
         },
         {
@@ -96,45 +96,53 @@ Proposed DynamoDB Table Schema:
           "AttributeType": "S"
         },
         {
-          "AttributeName": "for_sale",
-          "AttributeType": "BOOL"
+          "AttributeName": "sale_trade_status",
+          "AttributeType": "S"
         },
         {
-          "AttributeName": "for_trade",
-          "AttributeType": "BOOL"
+          "AttributeName": "sale_price_usd",
+          "AttributeType": "N"
+        },
+        {
+          "AttributeName": "last_transaction_date",
+          "AttributeType": "N"
         },
         {
           "AttributeName": "notes",
-          "AttributeType": "S"
+          "AttributeType": "L"
         }
       ]
 }
 ```
 
-The **partition key** and **sort key** were selected to ensure playsets of alters and signed cards are stored on the same partition. I typically commission artist a playset at a time as well as approach original artist for signatures at cons with playsets. The playset view will be a primary drill down view for a user browsing as a playset tells the whole story of an artist's vision or the moment they signed the cards. This will ensure read optimization.
-
 Here is an example item of my very first commissioned Brainstorm alter:
 
 ```
 {
-    "set_id": 1, // partition key
-    "card_id": "018f27f1-6558-7d50-9287-c6223f74683c", // sort key
+    "alter_id": "018f27f1-6558-7d50-9287-c6223f74683c", // partition key
     "scryfall_id": "beb755c1-9221-480e-bef9-73f1f13a3345",
     "card_name": "Brainstorm",
-    "collection_name": "Cantrip Cartel",
+    "playset_id": "1",
     "alter_artist": "GK Alters",
     "commission_date": 1682985600,
+    "commission_price_usd": 23.52,
     "signed_by": null,
     "signed_date": null,
     "condition": "LP",
-    "for_sale": false,
-    "for_trade": false,
-    "notes": "My very first comissioned alter",
+    "sale_trade_status": "NOT_FOR_SALE_TRADE",
+    "sale_price_usd": null,
+    "last_transaction_date:" null,
+    "notes": [
+      {
+        "date": 1714600997,
+        "content": "My very first commissioned alter"
+      }
+    ]
 }
 ```
 
 ## Scryfall Data
-Scryfall returns a wealth of data for every card in MTG's history. Again here is an example of what the Scryfall REST API returns for my very first commissioned alter, [Brainstorm from the Commander 2011 set](https://api.scryfall.com/cards/cmd/40/). 
+Scryfall returns an exhaustive amount of data for every card in MTG's history. Again here is an example of what the Scryfall REST API returns for my very first commissioned alter, [Brainstorm from the Commander 2011 set](https://api.scryfall.com/cards/cmd/40/). 
 
 Mox Galleria will integrate with its REST API as a trustworthy and authoratative source of card metadata.
 
