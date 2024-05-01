@@ -41,21 +41,119 @@ More granular requirements such as use cases and user stories will be managed vi
 2. Implement search box autocomplete
 
 # High-Level Design
-## Schema Design
+## Database and Schema Design
+As it currently stands, the magnitude of my collection is less than 100, a rather trivial amount for any DBMS to store. In my lifetime, I do not forsee crossing a ceiling of single-digit _thousands_ of alters and signed cards (if I did, I would likely have bigger problems than showcasing my collection online).
+
+For the sake of simplicity and speed, data will be stored in a structured JSON for each card on managed DynamoDB tables hosted on AWS.
+
+Proposed DynamoDB Table Schema:
+
+```
+{
+    "TableName": "mox_galleria",
+      "KeyAttributes": {
+        "PartitionKey": {
+          "AttributeName": "set_id",
+          "AttributeType": "N"
+        },
+        "SortKey": {
+          "AttributeName": "card_id",
+          "AttributeType": "S"
+        }
+      },
+      "NonKeyAttributes": [
+        {
+          "AttributeName": "scryfall_id",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "card_name",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "collection_name",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "alter_artist",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "commission_date",
+          "AttributeType": "N"
+        },
+        {
+          "AttributeName": "signed_by",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "signed_date",
+          "AttributeType": "N"
+        },
+        {
+          "AttributeName": "condition",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "for_sale",
+          "AttributeType": "BOOL"
+        },
+        {
+          "AttributeName": "for_trade",
+          "AttributeType": "BOOL"
+        },
+        {
+          "AttributeName": "notes",
+          "AttributeType": "S"
+        }
+      ]
+}
+```
+
+The **partition key** and **sort key** were selected to ensure playsets of alters and signed cards are stored on the same partition. I typically commission artist a playset at a time as well as approach original artist for signatures at cons with playsets. The playset view will be a primary drill down view for a user browsing as a playset tells the whole story of an artist's vision or the moment they signed the cards. This will ensure read optimization.
+
+Here is an example item of my very first commissioned Brainstorm alter:
 
 ```
 {
     "set_id": 1, // partition key
     "card_id": "018f27f1-6558-7d50-9287-c6223f74683c", // sort key
+    "scryfall_id": "beb755c1-9221-480e-bef9-73f1f13a3345",
+    "card_name": "Brainstorm",
     "collection_name": "Cantrip Cartel",
     "alter_artist": "GK Alters",
+    "commission_date": 1682985600,
     "signed_by": null,
+    "signed_date": null,
     "condition": "LP",
     "for_sale": false,
     "for_trade": false,
     "notes": "My very first comissioned alter",
-    "scryfall": {
-        ... // sourced Scryfall data
-    }
+}
+```
+
+## Scryfall Data
+Scryfall returns a wealth of data for every card in MTG's history. Again here is an example of what the Scryfall REST API returns for my very first commissioned alter, [Brainstorm from the Commander 2011 set](https://api.scryfall.com/cards/cmd/40/). 
+
+Mox Galleria will integrate with its REST API as a trustworthy and authoratative source of card metadata.
+
+Scryfall also conveniently host [bulk data files](https://scryfall.com/docs/api/bulk-data) of its _entire_ database. Considerations were made for hosting the entirety of MTG's card library locally, but is likely unnecessary; instead, coresponding Scryfall card metadata for each of the alters and signed cards will be inserted along with Mox Galleria data at _insertion time_.
+
+Proposed DynamoDB Table Schema:
+```
+{
+      "TableName": "scryfall",
+      "KeyAttributes": {
+        "PartitionKey": {
+          "AttributeName": "scryfall_id",
+          "AttributeType": "S"
+        }
+      },
+      "NonKeyAttributes": [
+        {
+          "AttributeName": "metadata",
+          "AttributeType": "M"
+        }
+      ]
 }
 ```
