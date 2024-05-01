@@ -13,7 +13,7 @@ The goal is to create a website that showcases my personal collection in _one_ p
 - **Alter** - A collectibe trading card that has been artisitcally altered or customized by an artist, usually hand painted or hand drawn
 - **Gatherer** - The official Magic: The Gathering card database hosted by Wizards of the Coast
 - **MTG** - abbreviation for Magic: The Gathering
-- **Scryfall** - A community run Magic: The Gathering search website
+- **Scryfall** - A community run Magic: The Gathering search website with a powerful search syntax
 - **Signed Card** - A collectible trading card that has been autographed by the original artist or other noteworthy person
 
 # High-Level Requirements
@@ -157,3 +157,5 @@ Proposed DynamoDB Table Schema:
       ]
 }
 ```
+
+The entirety of Scryfall's metadata will be captured per card in order to maximize implementing Scryfall's keyword and expressions search syntax.
