@@ -13,6 +13,7 @@ The goal is to create a website that showcases my personal collection in _one_ p
 - **Alter** - A collectibe trading card that has been artisitcally altered or customized by an artist, usually hand painted or hand drawn
 - **Gatherer** - The official Magic: The Gathering card database hosted by Wizards of the Coast
 - **MTG** - abbreviation for Magic: The Gathering
+- **Playset** - 4 of the same card is colloquially known as a "playset". In Magic: The Gathering 60 card formats, players are only allowed 4 of the same card in decks. 
 - **Scryfall** - A community run Magic: The Gathering search website with a powerful search syntax
 - **Signed Card** - A collectible trading card that has been autographed by the original artist or other noteworthy person
 
