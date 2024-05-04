@@ -5,9 +5,7 @@ Mox Galleria is a website that showcases Magic: The Gathering alters and signed 
 **Created:** 04/26/2024 **Last Updated:** 04/27/2024
 
 # "Brainstorm" Release
-<div style="text-align: center;">
 <img src="./img/Brainstorm.png" alt="Brainstorm Alter" height="450"/>
-</div>
 
 The "Brainstorm" release focuses on the minimum viable product (MVP) release of Mox Galleria. The release is named after my very first commissioned alters, a playset of Brainstorm from the Commander 2011 set by GK Alters.
 
