@@ -178,6 +178,20 @@ Proposed DynamoDB Table Schema:
 The entirety of Scryfall's metadata will be captured per card in order to maximize implementing Scryfall's keyword and expressions search syntax.
 
 ## Upload Tool
-My current rate of acquiring alters and signed cards is about a playset every 1-2 months; this makes high-res scanning and manual insertion of data relatively manageble, including auto-incrementing IDs and manually gathering Scryfall metadata. However, a web based tool, only accessible by an admin persona, would be much more convenient. 
+My current rate of acquiring alters and signed cards is about a playset every 1-2 months; this makes high-res scanning and manual insertion of data relatively manageble, including managing incrementing IDs and manually gathering Scryfall metadata. However, a web based tool, only accessible by an admin persona, would be much more convenient. 
 
 For the sake of releasing the MVP, an upload tool and the write and update APIs to support it will be a stretch goal.
+
+## APIs
+```
+GET /alters
+
+getAllAlters(page=1, per_page=50)
+```
+Retrieves all alters.
+
+*Note - consideration needs to be made for dynamoDB's 1 MB limit for returning data from a scan operation.
+
+Parameters:
+- page (number): Pagination page number. Default is page 1.
+- per_page (number): Pagination number of results per page. Default is 50.
