@@ -1,1 +1,8 @@
+# Serverfless Framework
 .serverless/
+
+# Terraform
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.terraform.lock*

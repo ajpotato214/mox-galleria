@@ -18,21 +18,8 @@ provider:
             - dynamodb:UpdateItem
             - dynamodb:DeleteItem
           Resource: 
-            - Fn::GetAtt: [MoxGalleriaAlters, Arn]
-
-resources:
-  Resources:
-    MoxGalleriaAlters:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: mox_galleria_alters
-        AttributeDefinitions:
-          - AttributeName: alter_id
-            AttributeType: N
-        KeySchema:
-          - AttributeName: alter_id
-            KeyType: HASH
-        BillingMode: PAY_PER_REQUEST
+            - arn:aws:dynamodb:::table/mox_galleria*
+            - arn:aws:dynamodb:::global-table/mox_galleria*
 
 functions:
   helloWorld:
