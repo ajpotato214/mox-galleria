@@ -49,6 +49,7 @@ More granular requirements such as use cases and user stories will be managed vi
 ## Extended Requirements
 1. Implement Scryfall search syntax
 2. Implement search box autocomplete
+3. Create an upload tool to easily upload new alters and signed cards
 
 # High-Level Design
 ## Database and Schema Design
@@ -177,3 +178,5 @@ Proposed DynamoDB Table Schema:
 ```
 
 The entirety of Scryfall's metadata will be captured per card in order to maximize implementing Scryfall's keyword and expressions search syntax.
+
+## Upload Tool
