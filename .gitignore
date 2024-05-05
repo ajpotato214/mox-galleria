@@ -6,3 +6,6 @@
 *.tfstate
 *.tfstate.*
 *.terraform.lock*
+
+# Node
+node_modules/

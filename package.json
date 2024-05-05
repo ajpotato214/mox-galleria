@@ -1,0 +1,22 @@
+{
+  "name": "mox-galleria",
+  "version": "1.0.0",
+  "description": "Mox Galleria is a website that showcases Magic: The Gathering alters and signed cards from the personal collection of Andy Papa.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ajpotato214/mox-galleria.git"
+  },
+  "author": "Andy Papa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ajpotato214/mox-galleria/issues"
+  },
+  "homepage": "https://github.com/ajpotato214/mox-galleria#readme"
+}
