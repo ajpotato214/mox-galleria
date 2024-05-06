@@ -63,12 +63,12 @@ Proposed DynamoDB Table Schema:
       "KeyAttributes": {
         "PartitionKey": {
           "AttributeName": "alter_id",
-          "AttributeType": "S"
+          "AttributeType": "N"
         }
       },
       "NonKeyAttributes": [
         {
-          "AttributeName": "scryfall_id",
+          "AttributeName": "card_id",
           "AttributeType": "S"
         },
         {
@@ -128,7 +128,7 @@ Here is an example item of my very first commissioned Brainstorm alter:
 ```
 {
     "alter_id": "018f27f1-6558-7d50-9287-c6223f74683c", // partition key
-    "scryfall_id": "beb755c1-9221-480e-bef9-73f1f13a3345",
+    "card_id": "beb755c1-9221-480e-bef9-73f1f13a3345",
     "card_name": "Brainstorm",
     "playset_id": "1",
     "alter_artist": "GK Alters",
@@ -162,11 +162,15 @@ Proposed DynamoDB Table Schema:
       "TableName": "scryfall",
       "KeyAttributes": {
         "PartitionKey": {
-          "AttributeName": "scryfall_id",
+          "AttributeName": "card_id",
           "AttributeType": "S"
         }
       },
       "NonKeyAttributes": [
+        {
+          "AttributeName": "provider",
+          "AttributeType": "S"
+        },
         {
           "AttributeName": "metadata",
           "AttributeType": "M"
@@ -184,14 +188,13 @@ For the sake of releasing the MVP, an upload tool and the write and update APIs 
 
 ## APIs
 ```
-GET /alters
+POST /cards
 
-getAllAlters(page=1, per_page=50)
+addCard(card_id, provider, metadata)
 ```
-Retrieves all alters.
+Adds a card along with the metadata from a provider such as Scryfall
 
-*Note - consideration needs to be made for dynamoDB's 1 MB limit for returning data from a scan operation.
-
-Parameters:
-- page (number): Pagination page number. Default is page 1.
-- per_page (number): Pagination number of results per page. Default is 50.
+Parameters:  
+card_id (UUID) - unique identifier  
+provider (string) - provider of metadata (i.e. Scryfall)  
+metadata (JSON) - sourced card metadata from provider
