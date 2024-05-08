@@ -10,15 +10,17 @@ terraform {
 }
 
 provider "aws" {
-  region = "us-west-2"
+  region                   = "us-west-2"
   shared_credentials_files = ["$HOME/.aws/credentials"]
-  profile = "mox-galleria-deploy"
+  profile                  = "mox-galleria-deploy"
 }
 
 resource "aws_dynamodb_table" "mox_galleria_alters" {
-  name         = "mox_galleria_alters"
-  billing_mode = "PAY_PER_REQUEST"
-  hash_key     = "alter_id"
+  name           = "mox_galleria_alters"
+  billing_mode   = "PROVISIONED"
+  read_capacity  = "1"
+  write_capacity = "1"
+  hash_key       = "alter_id"
 
   attribute {
     name = "alter_id"
@@ -26,13 +28,15 @@ resource "aws_dynamodb_table" "mox_galleria_alters" {
   }
 }
 
-resource "aws_dynamodb_table" "mox_galleria_scryfall" {
-  name = "mox_galleria_scryfall"
-  billing_mode = "PAY_PER_REQUEST"
-  hash_key = "scryfall_id"
+resource "aws_dynamodb_table" "mox_galleria_cards" {
+  name           = "mox_galleria_cards"
+  billing_mode   = "PROVISIONED"
+  read_capacity  = "1"
+  write_capacity = "1"
+  hash_key       = "card_id"
 
   attribute {
-    name = "scryfall_id"
+    name = "card_id"
     type = "S"
   }
 }
