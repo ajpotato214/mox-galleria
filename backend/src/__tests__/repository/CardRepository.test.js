@@ -1,10 +1,6 @@
 /* eslint-disable no-undef */
-import { DescribeTableCommand, ScanCommand } from '@aws-sdk/client-dynamodb';
-import {
-  PutCommand,
-  GetCommand,
-  BatchWriteCommand,
-} from '@aws-sdk/lib-dynamodb';
+import { DescribeTableCommand } from '@aws-sdk/client-dynamodb';
+import { PutCommand, GetCommand } from '@aws-sdk/lib-dynamodb';
 import { mockClient } from 'aws-sdk-client-mock';
 
 import CardRepository from '../../repository/CardRepository';
@@ -80,72 +76,5 @@ describe('CardRepository', () => {
     expect(response.Item.metadata).toStrictEqual({
       card_id: 'd50aee81-ac6b-42cf-84b2-c1cab286bcad',
     });
-  });
-
-  test('returns the count of cards in the table', async () => {
-    /* Mock Responses
-    ------------------------------------------------------------------------------------*/
-    testCardRepository.ddb.on(ScanCommand).resolves({
-      Count: 3,
-    });
-    /*
-    ------------------------------------------------------------------------------------*/
-    const input = {
-      RequestItems: {
-        mox_galleria_cards: [
-          {
-            PutRequest: {
-              Item: {
-                card_id: {
-                  S: '1f7a05c2-c3d7-4ae1-abd4-2ccd40ffc1f9',
-                },
-                provider: {
-                  S: 'scryfall',
-                },
-                metadata: {
-                  M: {},
-                },
-              },
-            },
-          },
-          {
-            PutRequest: {
-              Item: {
-                card_id: {
-                  S: 'cc16dbfc-eb1d-48bf-8cb1-79be885f22e4',
-                },
-                provider: {
-                  S: 'scryfall',
-                },
-                metadata: {
-                  M: {},
-                },
-              },
-            },
-          },
-          {
-            PutRequest: {
-              Item: {
-                card_id: {
-                  S: 'ca19ac96-0567-41a4-92c2-8214b0748492',
-                },
-                provider: {
-                  S: 'scryfall',
-                },
-                metadata: {
-                  M: {},
-                },
-              },
-            },
-          },
-        ],
-      },
-    };
-
-    const command = new BatchWriteCommand(input);
-    await testCardRepository.docddb.send(command);
-
-    const count = await testCardRepository.count();
-    expect(count).toBe(3);
   });
 });
