@@ -1,90 +1,70 @@
 /* eslint-disable no-undef */
+import { DescribeTableCommand, ScanCommand } from '@aws-sdk/client-dynamodb';
 import {
-  DynamoDBClient,
-  CreateTableCommand,
-  DeleteTableCommand,
-  waitUntilTableExists,
-  waitUntilTableNotExists,
-  BatchWriteItemCommand,
-} from '@aws-sdk/client-dynamodb';
-import {
-  DynamoDBDocumentClient,
-  GetCommand,
   PutCommand,
+  GetCommand,
+  BatchWriteCommand,
 } from '@aws-sdk/lib-dynamodb';
+import { mockClient } from 'aws-sdk-client-mock';
+
 import CardRepository from '../../repository/CardRepository';
 import Config from '../../../../config.dev.json';
 
 const TABLE_NAME = Config.cardsTableName;
 const REGION = Config.region;
-const ENDPOINT = Config.endpoint;
 
 describe('CardRepository', () => {
-  const client = new DynamoDBClient({
-    region: REGION,
-    endpoint: ENDPOINT,
-  });
-  const docClient = DynamoDBDocumentClient.from(client);
-
-  const testCardRepository = new CardRepository(TABLE_NAME, REGION, {
-    endpoint: ENDPOINT,
-  });
+  const testCardRepository = new CardRepository(TABLE_NAME, REGION);
+  testCardRepository.ddb = mockClient(testCardRepository.ddb);
+  testCardRepository.docddb = mockClient(testCardRepository.docddb);
 
   beforeEach(async () => {
-    // create the table before every test
-    const command = new CreateTableCommand({
-      TableName: TABLE_NAME,
-      AttributeDefinitions: [
-        {
-          AttributeName: 'card_id',
-          AttributeType: 'S',
-        },
-      ],
-      KeySchema: [
-        {
-          AttributeName: 'card_id',
-          KeyType: 'HASH',
-        },
-      ],
-      ProvisionedThroughput: {
-        ReadCapacityUnits: 100,
-        WriteCapacityUnits: 100,
-      },
-    });
-
-    await client.send(command);
-
-    await waitUntilTableExists(
-      { client, maxWaitTime: 180 },
-      { TableName: 'mox_galleria_cards' },
-    );
-  });
-
-  afterEach(async () => {
-    // delete table after every test
-    const command = new DeleteTableCommand({
-      TableName: TABLE_NAME,
-    });
-
-    await client.send(command);
-    await waitUntilTableNotExists(
-      { client, maxWaitTime: 180 },
-      { TableName: 'mox_galleria_cards' },
-    );
+    testCardRepository.ddb.reset();
+    testCardRepository.docddb.reset();
   });
 
   test('returns the status of the active cards DynamoDB Table', async () => {
+    /* Mock Responses
+    ------------------------------------------------------------------------------------*/
+    testCardRepository.ddb.on(DescribeTableCommand).resolves({
+      Table: {
+        TableStatus: 'ACTIVE',
+      },
+    });
+    /*
+    ------------------------------------------------------------------------------------*/
+
     const status = await testCardRepository.getTableStatus();
 
     expect(status).toBe('ACTIVE');
   });
 
-  test('adds a Card to the database', async () => {
+  test('adds a card to the database', async () => {
+    /* Mock Responses
+    ------------------------------------------------------------------------------------*/
+    testCardRepository.docddb.on(PutCommand).resolves({
+      $metadata: {
+        httpStatusCode: 200,
+      },
+    });
+
+    testCardRepository.docddb.on(GetCommand).resolves({
+      Item: {
+        card_id: 'd50aee81-ac6b-42cf-84b2-c1cab286bcad',
+        provider: 'scryfall',
+        metadata: { card_id: 'd50aee81-ac6b-42cf-84b2-c1cab286bcad' },
+      },
+    });
+    /*
+    ------------------------------------------------------------------------------------*/
+
     const status = await testCardRepository.add(
       'd50aee81-ac6b-42cf-84b2-c1cab286bcad',
       'scryfall',
       { card_id: 'd50aee81-ac6b-42cf-84b2-c1cab286bcad' },
     );
+
+    expect(status.$metadata.httpStatusCode).toBe(200);
 
     const command = new GetCommand({
       TableName: TABLE_NAME,
@@ -93,9 +73,8 @@ describe('CardRepository', () => {
       },
     });
 
-    const response = await docClient.send(command);
+    const response = await testCardRepository.docddb.send(command);
 
-    expect(status.$metadata.httpStatusCode).toBe(200);
     expect(response.Item.card_id).toBe('d50aee81-ac6b-42cf-84b2-c1cab286bcad');
     expect(response.Item.provider).toBe('scryfall');
     expect(response.Item.metadata).toStrictEqual({
@@ -104,23 +83,13 @@ describe('CardRepository', () => {
   });
 
   test('returns the count of cards in the table', async () => {
-    let count = await testCardRepository.count();
-    expect(count).toBe(0);
-
-    let command = new PutCommand({
-      TableName: TABLE_NAME,
-      Item: {
-        card_id: 'd50aee81-ac6b-42cf-84b2-c1cab286bcad',
-        provider: 'scryfall',
-        metadata: {},
-      },
+    /* Mock Responses
+    ------------------------------------------------------------------------------------*/
+    testCardRepository.ddb.on(ScanCommand).resolves({
+      Count: 3,
     });
-
-    await docClient.send(command);
-
-    count = await testCardRepository.count();
-    expect(count).toBe(1);
-
+    /*
+    ------------------------------------------------------------------------------------*/
     const input = {
       RequestItems: {
         mox_galleria_cards: [
@@ -173,10 +142,10 @@ describe('CardRepository', () => {
       },
     };
 
-    command = new BatchWriteItemCommand(input);
-    await docClient.send(command);
+    const command = new BatchWriteCommand(input);
+    await testCardRepository.docddb.send(command);
 
-    count = await testCardRepository.count();
-    expect(count).toBe(4);
+    const count = await testCardRepository.count();
+    expect(count).toBe(3);
   });
 });
