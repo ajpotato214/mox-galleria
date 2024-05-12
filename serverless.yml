@@ -1,7 +1,18 @@
 service: mox-galleria
 
+plugins:
+  - serverless-offline
+  - serverless-webpack
+
+custom:
+  webpack:
+    includeModules:
+      forceExclude:
+        - aws-sdk
+
 provider:
   name: aws
+  stage: prod
   region: us-west-2
   runtime: nodejs18.x
   profile: mox-galleria-deploy
@@ -22,5 +33,9 @@ provider:
             - arn:aws:dynamodb:::global-table/mox_galleria*
 
 functions:
-  helloWorld:
-    handler: backend/src/handler.helloWorld
+  addCard:
+    handler: backend/src/handler.addCard
+    events:
+      - http:
+          method: post
+          path: cards
