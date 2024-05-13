@@ -35,7 +35,7 @@ provider:
 
 functions:
   addCard:
-    handler: backend/src/handler.addCard
+    handler: backend/src/handler/addCard.addCard
     events:
       - http:
           method: post

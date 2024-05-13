@@ -1,7 +1,7 @@
 /* eslint-disable import/prefer-default-export */
-import Card from './model/Card';
-import ScryfallCard from './model/ScryfallCard';
-import CardRepository from './repository/CardRepository';
+import Card from '../model/Card';
+import ScryfallCard from '../model/ScryfallCard';
+import CardRepository from '../repository/CardRepository';
 
 const { MOX_GALLERIA_MTG_CARDS_TABLE, REGION } = process.env;
 
