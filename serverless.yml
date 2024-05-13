@@ -3,6 +3,7 @@ service: mox-galleria
 plugins:
   - serverless-offline
   - serverless-webpack
+  - serverless-dotenv-plugin
 
 custom:
   webpack:
@@ -29,8 +30,8 @@ provider:
             - dynamodb:UpdateItem
             - dynamodb:DeleteItem
           Resource: 
-            - arn:aws:dynamodb:::table/mox_galleria*
-            - arn:aws:dynamodb:::global-table/mox_galleria*
+            - arn:aws:dynamodb:*:*:table/mox_galleria*
+            - arn:aws:dynamodb:*:*:global-table/mox_galleria*
 
 functions:
   addCard:
