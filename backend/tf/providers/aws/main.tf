@@ -15,8 +15,8 @@ provider "aws" {
   profile                  = "mox-galleria-deploy"
 }
 
-resource "aws_dynamodb_table" "mox_galleria_alters" {
-  name           = "mox_galleria_alters"
+resource "aws_dynamodb_table" "mox_galleria_mtg_alters" {
+  name           = "mox_galleria_mtg_alters"
   billing_mode   = "PROVISIONED"
   read_capacity  = "1"
   write_capacity = "1"
@@ -28,8 +28,8 @@ resource "aws_dynamodb_table" "mox_galleria_alters" {
   }
 }
 
-resource "aws_dynamodb_table" "mox_galleria_cards" {
-  name           = "mox_galleria_cards"
+resource "aws_dynamodb_table" "mox_galleria_mtg_cards" {
+  name           = "mox_galleria_mtg_cards"
   billing_mode   = "PROVISIONED"
   read_capacity  = "1"
   write_capacity = "1"
