@@ -4,13 +4,11 @@ import { PutCommand, GetCommand } from '@aws-sdk/lib-dynamodb';
 import { mockClient } from 'aws-sdk-client-mock';
 
 import CardRepository from '../../repository/CardRepository';
-import Config from '../../../../config.dev.json';
 
-const TABLE_NAME = Config.cardsTableName;
-const REGION = Config.region;
+const { MOX_GALLERIA_MTG_CARDS_TABLE, REGION } = process.env;
 
 describe('CardRepository', () => {
-  const testCardRepository = new CardRepository(TABLE_NAME, REGION);
+  const testCardRepository = new CardRepository(MOX_GALLERIA_MTG_CARDS_TABLE, REGION);
   testCardRepository.ddb = mockClient(testCardRepository.ddb);
   testCardRepository.docddb = mockClient(testCardRepository.docddb);
 
@@ -63,7 +61,7 @@ describe('CardRepository', () => {
     expect(status.$metadata.httpStatusCode).toBe(200);
 
     const command = new GetCommand({
-      TableName: TABLE_NAME,
+      TableName: MOX_GALLERIA_MTG_CARDS_TABLE,
       Key: {
         card_id: 'd50aee81-ac6b-42cf-84b2-c1cab286bcad',
       },
