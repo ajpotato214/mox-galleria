@@ -1,4 +1,5 @@
 const slsw = require('serverless-webpack');
+const Dotenv = require('dotenv-webpack');
 
 const backendConfig = {
   entry: slsw.lib.entries,
@@ -6,6 +7,7 @@ const backendConfig = {
   module: {
     rules: [{ test: /\.(js)x?$/, loader: 'babel-loader' }],
   },
+  plugins: [new Dotenv()],
 };
 
 module.exports = backendConfig;
