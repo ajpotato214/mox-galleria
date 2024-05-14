@@ -6,11 +6,12 @@ www.moxgalleria.com
 
 Coming soon!
 
+In the meantime, check out my makeshift album of alters [here at Cube Cobra!](https://cubecobra.com/cube/list/a2870aef-cdba-4d66-823f-24923fcfe89b)
 
 # 🚧 In Development Release - "Brainstorm"
 <img src="./docs/design/img/Brainstorm.png" alt="Brainstorm Alter" height="450"/></br>
 
-[📜 Design Doc](./docs/design/designdoc.md)  
+📜[Design Doc](./docs/design/designdoc.md)  
 ⛳ **Planned Release Date:** TBD
 
 
