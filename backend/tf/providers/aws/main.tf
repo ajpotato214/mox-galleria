@@ -40,3 +40,34 @@ resource "aws_dynamodb_table" "mox_galleria_mtg_cards" {
     type = "S"
   }
 }
+
+resource "aws_s3_bucket" "mox-galleria-mtg-alters" {
+  bucket = "mox-galleria-mtg-alters"
+}
+
+resource "aws_s3_bucket_public_access_block" "mox-galleria-mtg-alters" {
+  bucket                  = aws_s3_bucket.mox-galleria-mtg-alters.id
+  block_public_acls       = false
+  block_public_policy     = false
+  ignore_public_acls      = false
+  restrict_public_buckets = false
+}
+
+resource "aws_s3_bucket_policy" "open_access" {
+  bucket = aws_s3_bucket.mox-galleria-mtg-alters.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Id      = "Public_access"
+    Statement = [
+      {
+        Sid = "IPAllow"
+        Effect = "Allow"
+        Principal = "*"
+        Action = ["s3:GetObject"]
+        Resource = "${aws_s3_bucket.mox-galleria-mtg-alters.arn}/*"
+      },
+    ]
+  })
+  depends_on = [ aws_s3_bucket_public_access_block.mox-galleria-mtg-alters ]
+}
