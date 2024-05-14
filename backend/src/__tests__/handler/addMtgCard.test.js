@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
-import { addCard } from '../../handler/addCard';
+import { addMtgCard } from '../../handler/addMtgCard';
 
-describe('addCard', () => {
+describe('addMtgCard', () => {
   const eventMock = {
     input: {
       resource: '/cards',
@@ -116,7 +116,7 @@ describe('addCard', () => {
   test('throws a 400 error if event.body is invalid JSON', async () => {
     eventMock.body = '{asdfasdf}';
 
-    const response = await addCard(eventMock);
+    const response = await addMtgCard(eventMock);
 
     expect(response.statusCode).toBe(400);
     expect(response.body).toBe('invalid JSON string');
@@ -125,7 +125,7 @@ describe('addCard', () => {
   test('throws a 400 for an unrecognized or unsupported card metadata provider', async () => {
     eventMock.body = '{\r\n  "id": "c7867d5c-0954-474f-83b8-a86f15c04bcd",\r\n  "provider": "acme",\r\n  "metadata": {}\r\n}';
 
-    const response = await addCard(eventMock);
+    const response = await addMtgCard(eventMock);
 
     expect(response.statusCode).toBe(400);
     expect(response.body).toBe('Unrecognized or unsupported card provider: acme');
@@ -134,7 +134,7 @@ describe('addCard', () => {
   test('throws a 400 for an invalid Scryfall card with missing property', async () => {
     eventMock.body = '{\r\n  "id": "c7867d5c-0954-474f-83b8-a86f15c04bcd",\r\n  "provider": "scryfall",\r\n  "metadata": {}\r\n}';
 
-    const response = await addCard(eventMock);
+    const response = await addMtgCard(eventMock);
 
     expect(response.statusCode).toBe(400);
     expect(response.body).toBe('Invalid Scryfall card: "id" is required');
@@ -143,16 +143,16 @@ describe('addCard', () => {
   test('throws a 400 for an invalid Scryfall card with mismatched types', async () => {
     eventMock.body = '{\r\n  "id": "c7867d5c-0954-474f-83b8-a86f15c04bcd",\r\n  "provider": "scryfall",\r\n  "metadata": { "id": 123 }\r\n}';
 
-    const response = await addCard(eventMock);
+    const response = await addMtgCard(eventMock);
 
     expect(response.statusCode).toBe(400);
     expect(response.body).toBe('Invalid Scryfall card: "id" must be a string');
   });
 
   test('returns 200 for successfully adding a card', async () => {
-    const addCardMock = jest.fn();
+    const addMtgCardMock = jest.fn();
 
-    addCardMock.mockReturnValue({
+    addMtgCardMock.mockReturnValue({
       isBase64Encoded: false,
       statusCode: 200,
       headers: {},
@@ -161,7 +161,7 @@ describe('addCard', () => {
 
     eventMock.body = '{\r\n  "id": "c7867d5c-0954-474f-83b8-a86f15c04bcd",\r\n  "provider": "scryfall",\r\n  "metadata": { "name": "Brainstorm" }\r\n}';
 
-    const response = addCardMock(eventMock);
+    const response = addMtgCardMock(eventMock);
 
     expect(response.statusCode).toBe(200);
     expect(response.body).toBe('Successfully added Scryfall card: Brainstorm');

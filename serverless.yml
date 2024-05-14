@@ -35,8 +35,8 @@ provider:
 
 functions:
   addCard:
-    handler: backend/src/handler/addCard.addCard
+    handler: backend/src/handler/addMtgCard.addMtgCard
     events:
       - http:
           method: post
-          path: cards
+          path: cards/mtg

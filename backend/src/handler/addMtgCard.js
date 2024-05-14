@@ -28,7 +28,7 @@ const addScryfallCard = async (card) => {
   return response(added.$metadata.httpStatusCode, `Successfully added Scryfall card: ${scryfallCard.metadata.name}`);
 };
 
-export const addCard = async (event) => {
+export const addMtgCard = async (event) => {
   let card = event.body;
 
   try {
