@@ -188,13 +188,27 @@ For the sake of releasing the MVP, an upload tool and the write and update APIs 
 
 ## APIs
 ```
-POST /cards
+POST /cards/mtg
+body:
+  card_id
+  provider
+  metadata
 
-addCard(card_id, provider, metadata)
+addMtgCard(card_id, provider, metadata)
 ```
-Adds a card along with the metadata from a provider such as Scryfall
+Adds a single card along with the metadata from a provider such as Scryfall
 
 Parameters:  
 card_id (UUID) - unique identifier  
 provider (string) - provider of metadata (i.e. Scryfall)  
 metadata (JSON) - sourced card metadata from provider
+
+```
+GET /cards/mtg/{card_id}
+
+getMtgCard(card_id)
+```
+Returns a single MTG card based on a unique ID
+
+Parameters:
+card_id (UUDI) - unique identifier
