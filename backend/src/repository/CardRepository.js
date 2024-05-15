@@ -1,5 +1,9 @@
 import { DynamoDBClient, DescribeTableCommand } from '@aws-sdk/client-dynamodb';
-import { PutCommand, DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
+import {
+  PutCommand,
+  GetCommand,
+  DynamoDBDocumentClient,
+} from '@aws-sdk/lib-dynamodb';
 import IDynamoDBRepository from './IDynamoDBRepository';
 
 export default class CardRepository extends IDynamoDBRepository {
@@ -32,5 +36,18 @@ export default class CardRepository extends IDynamoDBRepository {
     const response = await this.docddb.send(command);
 
     return response;
+  }
+
+  async findOne(cardId) {
+    const command = new GetCommand({
+      TableName: this.tableName,
+      Key: {
+        card_id: cardId,
+      },
+    });
+
+    const response = await this.docddb.send(command);
+
+    return response.Item;
   }
 }

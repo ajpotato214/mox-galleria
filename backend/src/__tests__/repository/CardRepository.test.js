@@ -8,7 +8,10 @@ import CardRepository from '../../repository/CardRepository';
 const { MOX_GALLERIA_MTG_CARDS_TABLE, REGION } = process.env;
 
 describe('CardRepository', () => {
-  const testCardRepository = new CardRepository(MOX_GALLERIA_MTG_CARDS_TABLE, REGION);
+  const testCardRepository = new CardRepository(
+    MOX_GALLERIA_MTG_CARDS_TABLE,
+    REGION,
+  );
   testCardRepository.ddb = mockClient(testCardRepository.ddb);
   testCardRepository.docddb = mockClient(testCardRepository.docddb);
 
@@ -74,5 +77,79 @@ describe('CardRepository', () => {
     expect(response.Item.metadata).toStrictEqual({
       card_id: 'd50aee81-ac6b-42cf-84b2-c1cab286bcad',
     });
+  });
+
+  test('gets a card from the database by card_id', async () => {
+    /* Mock Responses
+    ------------------------------------------------------------------------------------*/
+    testCardRepository.docddb.on(PutCommand).resolves({
+      $metadata: {
+        httpStatusCode: 200,
+      },
+    });
+
+    testCardRepository.docddb.on(GetCommand).resolves({
+      Item: {
+        card_id: 'd50aee81-ac6b-42cf-84b2-c1cab286bcad',
+        provider: 'scryfall',
+        metadata: { card_id: 'd50aee81-ac6b-42cf-84b2-c1cab286bcad' },
+      },
+    });
+    /*
+    ------------------------------------------------------------------------------------*/
+
+    const command = new PutCommand({
+      TableName: MOX_GALLERIA_MTG_CARDS_TABLE,
+      Item: {
+        card_id: 'd50aee81-ac6b-42cf-84b2-c1cab286bcad',
+        provider: 'scryfall',
+        metadata: { card_id: 'd50aee81-ac6b-42cf-84b2-c1cab286bcad' },
+      },
+    });
+
+    await testCardRepository.docddb.send(command);
+
+    const response = await testCardRepository.findOne(
+      'd50aee81-ac6b-42cf-84b2-c1cab286bcad',
+    );
+
+    expect(response.card_id).toBe('d50aee81-ac6b-42cf-84b2-c1cab286bcad');
+    expect(response.provider).toBe('scryfall');
+    expect(response.metadata).toStrictEqual({
+      card_id: 'd50aee81-ac6b-42cf-84b2-c1cab286bcad',
+    });
+  });
+
+  test('returns null if it could not find a card from the database by card_id', async () => {
+    /* Mock Responses
+    ------------------------------------------------------------------------------------*/
+    testCardRepository.docddb.on(PutCommand).resolves({
+      $metadata: {
+        httpStatusCode: 200,
+      },
+    });
+
+    testCardRepository.docddb.on(GetCommand).resolves({
+      Item: null,
+    });
+    /*
+    ------------------------------------------------------------------------------------*/
+
+    const command = new PutCommand({
+      TableName: MOX_GALLERIA_MTG_CARDS_TABLE,
+      Item: {
+        card_id: 'd50aee81-ac6b-42cf-84b2-c1cab286bcad',
+        provider: 'scryfall',
+        metadata: { card_id: 'd50aee81-ac6b-42cf-84b2-c1cab286bcad' },
+      },
+    });
+
+    await testCardRepository.docddb.send(command);
+
+    const response = await testCardRepository.findOne(
+      'd50aee81-ac6b-42cf-84b2-xxxxxxxxx',
+    );
+
+    expect(response).toBeFalsy();
   });
 });

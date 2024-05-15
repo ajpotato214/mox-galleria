@@ -34,9 +34,15 @@ provider:
             - arn:aws:dynamodb:*:*:global-table/mox_galleria*
 
 functions:
-  addCard:
+  addMtgCard:
     handler: backend/src/handler/addMtgCard.addMtgCard
     events:
       - http:
           method: post
           path: cards/mtg
+  getMtgCard:
+    handler: backend/src/handler/getMtgCard.getMtgCard
+    events:
+      - http:
+          method: GET
+          path: cards/mtg/{cardId}
