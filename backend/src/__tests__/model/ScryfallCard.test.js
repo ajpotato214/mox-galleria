@@ -348,4 +348,15 @@ describe('ScryfallCard', () => {
 
     Card.validate(brainstormScryfallCard);
   });
+
+  test('creates a valid object of a card without mana cost', () => {
+    const brainstormNoManaCost = { ...brainstormMock };
+    brainstormNoManaCost.mana_cost = '';
+
+    const brainstorm = new ScryfallCard(brainstormNoManaCost);
+
+    expect(brainstorm.id).toBe(brainstormNoManaCost.id);
+    expect(brainstorm.provider).toBe('scryfall');
+    expect(brainstorm.metadata.name).toBe('Brainstorm');
+  });
 });

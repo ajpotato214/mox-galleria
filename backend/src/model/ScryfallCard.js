@@ -9,7 +9,7 @@ export default class ScryfallCard extends Card {
       oracle_id: Joi.string().uuid().required(),
       name: Joi.string().required(),
       lang: Joi.string().required(),
-      mana_cost: Joi.string().required(),
+      mana_cost: Joi.string().allow('').required(),
       cmc: Joi.number().required(),
       oracle_text: Joi.string().required(),
       colors: Joi.array().required(),
