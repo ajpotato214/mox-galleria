@@ -59,7 +59,7 @@ Proposed DynamoDB Table Schema:
 
 ```
 {
-      "TableName": "mox_galleria",
+      "TableName": "mox_galleria_mtg_alters",
       "KeyAttributes": {
         "PartitionKey": {
           "AttributeName": "alter_id",
@@ -84,40 +84,20 @@ Proposed DynamoDB Table Schema:
           "AttributeType": "S"
         },
         {
-          "AttributeName": "commission_date",
-          "AttributeType": "N"
-        },
-        {
-          "AttributeName": "commission_price_usd",
-          "AttributeType": "N"
-        },
-        {
           "AttributeName": "signed_by",
           "AttributeType": "S"
-        },
-        {
-          "AttributeName": "signed_date",
-          "AttributeType": "N"
         },
         {
           "AttributeName": "condition",
           "AttributeType": "S"
         },
         {
-          "AttributeName": "sale_trade_status",
-          "AttributeType": "S"
-        },
-        {
-          "AttributeName": "sale_price_usd",
-          "AttributeType": "N"
-        },
-        {
-          "AttributeName": "last_transaction_date",
-          "AttributeType": "N"
+          "AttributeName": "additional_images",
+          "AttributeType": "L"`
         },
         {
           "AttributeName": "notes",
-          "AttributeType": "L"
+          "AttributeType": "L"`
         }
       ]
 }
@@ -132,14 +112,9 @@ Here is an example item of my very first commissioned Brainstorm alter:
     "card_name": "Brainstorm",
     "playset_id": "1",
     "alter_artist": "GK Alters",
-    "commission_date": 1682985600,
-    "commission_price_usd": 23.52,
     "signed_by": null,
-    "signed_date": null,
     "condition": "LP",
-    "sale_trade_status": "NOT_FOR_SALE_TRADE",
-    "sale_price_usd": null,
-    "last_transaction_date:" null,
+    "status": "NOT_FOR_SALE_TRADE",
     "notes": [
       {
         "date": 1714600997,
@@ -159,7 +134,7 @@ Scryfall also conveniently host [bulk data files](https://scryfall.com/docs/api/
 Proposed DynamoDB Table Schema:
 ```
 {
-      "TableName": "scryfall",
+      "TableName": "mox_galleria_mtg_cards",
       "KeyAttributes": {
         "PartitionKey": {
           "AttributeName": "card_id",
@@ -196,19 +171,45 @@ body:
 
 addMtgCard(card_id, provider, metadata)
 ```
-Adds a single card along with the metadata from a provider such as Scryfall
+_Adds a single card along with the metadata from a provider such as Scryfall_
 
 Parameters:  
-card_id (UUID) - unique identifier  
-provider (string) - provider of metadata (i.e. Scryfall)  
-metadata (JSON) - sourced card metadata from provider
+**card_id (UUID)** - unique identifier  
+**provider (string)** - provider of metadata (i.e. Scryfall)  
+**metadata (JSON)** - sourced card metadata from provider
 
 ```
 GET /cards/mtg/{card_id}
 
 getMtgCard(card_id)
 ```
-Returns a single MTG card based on a unique ID
+_Returns a single MTG card based on a unique ID_
 
 Parameters:
 card_id (UUDI) - unique identifier
+
+```
+POST /alters/mtg/
+body:
+  alter_id
+  card_id
+  card_name
+  playset_id
+  alter_artist
+  signed_by
+  condition
+  status
+
+addMtgAlter(alter_id, card_id, card_name, playset_id, alter_artist, condition, status)
+```
+_Adds a single alter card_
+
+Parameters:  
+**alter_id (UUID)** - unique identifier  
+**card_id (UUID)** - unique identifier, foreign key references mox_galleria_mtg_cards table  
+**card_name (string)** - card's name  
+**playset_id (number)** - ID of the playset the card belongs to  
+**alter_artist (string)** - Name of the alter artist  
+**signed_by (string)** - If signed, name of the notable person who autographed the card  
+**condition (string - NM | LP | MP | HP | DMG)** - condition of the card using standard accepted notation  
+**status (string - NOT_FOR_SALE_TRADE | FOR_SALE_TRADE | FOR_SALE | FOR_TRADE)** - status of the card if its for sale, for trade, or both.
