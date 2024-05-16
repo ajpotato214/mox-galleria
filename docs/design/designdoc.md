@@ -62,7 +62,7 @@ Proposed DynamoDB Table Schema:
       "TableName": "mox_galleria_mtg_alters",
       "KeyAttributes": {
         "PartitionKey": {
-          "AttributeName": "alter_id",
+          "AttributeName": "id",
           "AttributeType": "N"
         }
       },
@@ -107,7 +107,7 @@ Here is an example item of my very first commissioned Brainstorm alter:
 
 ```
 {
-    "alter_id": "018f27f1-6558-7d50-9287-c6223f74683c", // partition key
+    "id": "018f27f1-6558-7d50-9287-c6223f74683c", // partition key
     "card_id": "beb755c1-9221-480e-bef9-73f1f13a3345",
     "card_name": "Brainstorm",
     "playset_id": "1",
@@ -137,7 +137,7 @@ Proposed DynamoDB Table Schema:
       "TableName": "mox_galleria_mtg_cards",
       "KeyAttributes": {
         "PartitionKey": {
-          "AttributeName": "card_id",
+          "AttributeName": "id",
           "AttributeType": "S"
         }
       },
@@ -165,33 +165,33 @@ For the sake of releasing the MVP, an upload tool and the write and update APIs 
 ```
 POST /cards/mtg
 body:
-  card_id
+  id
   provider
   metadata
 
-addMtgCard(card_id, provider, metadata)
+addMtgCard(id, provider, metadata)
 ```
 _Adds a single card along with the metadata from a provider such as Scryfall_
 
 Parameters:  
-**card_id (UUID)** - unique identifier  
+**id (UUID)** - unique identifier  
 **provider (string)** - provider of metadata (i.e. Scryfall)  
 **metadata (JSON)** - sourced card metadata from provider
 
 ```
-GET /cards/mtg/{card_id}
+GET /cards/mtg/{id}
 
-getMtgCard(card_id)
+getMtgCard(id)
 ```
 _Returns a single MTG card based on a unique ID_
 
 Parameters:
-card_id (UUDI) - unique identifier
+id (UUDI) - unique identifier
 
 ```
 POST /alters/mtg/
 body:
-  alter_id
+  id
   card_id
   card_name
   playset_id
@@ -200,16 +200,15 @@ body:
   condition
   status
 
-addMtgAlter(alter_id, card_id, card_name, playset_id, alter_artist, condition, status)
+addMtgAlter(id, card_id, card_name, playset_id, alter_artist, condition, status)
 ```
 _Adds a single alter card_
 
 Parameters:  
-**alter_id (UUID)** - unique identifier  
-**card_id (UUID)** - unique identifier, foreign key references mox_galleria_mtg_cards table  
-**card_name (string)** - card's name  
-**playset_id (number)** - ID of the playset the card belongs to  
-**alter_artist (string)** - Name of the alter artist  
-**signed_by (string)** - If signed, name of the notable person who autographed the card  
+**id (UUID)** - unique identifier  
+**card_id (UUID)** - unique card identifier, foreign key reference to mox_galleria_mtg_cards table id 
+**card_name (string)** - card's name    
+**alter_artist (string)** - Name of the alter artist    
 **condition (string - NM | LP | MP | HP | DMG)** - condition of the card using standard accepted notation  
-**status (string - NOT_FOR_SALE_TRADE | FOR_SALE_TRADE | FOR_SALE | FOR_TRADE)** - status of the card if its for sale, for trade, or both.
+**status (string - NOT_FOR_SALE_TRADE | FOR_SALE_TRADE | FOR_SALE | FOR_TRADE)** - status of the card if its for sale, for trade, or both.  
+**signed_by? (optional string)** - If signed, name of the notable person who autographed the card

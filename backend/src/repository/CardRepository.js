@@ -27,10 +27,10 @@ export default class CardRepository extends IDynamoDBRepository {
     return response.Table.TableStatus;
   }
 
-  async add(cardId, provider, metadata) {
+  async add(id, provider, metadata) {
     const command = new PutCommand({
       TableName: this.tableName,
-      Item: { card_id: cardId, provider, metadata },
+      Item: { id, provider, metadata },
     });
 
     const response = await this.docddb.send(command);
@@ -38,11 +38,11 @@ export default class CardRepository extends IDynamoDBRepository {
     return response;
   }
 
-  async findOne(cardId) {
+  async findOne(id) {
     const command = new GetCommand({
       TableName: this.tableName,
       Key: {
-        card_id: cardId,
+        id,
       },
     });
 

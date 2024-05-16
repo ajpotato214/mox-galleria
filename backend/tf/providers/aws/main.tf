@@ -20,10 +20,10 @@ resource "aws_dynamodb_table" "mox_galleria_mtg_alters" {
   billing_mode   = "PROVISIONED"
   read_capacity  = "1"
   write_capacity = "1"
-  hash_key       = "alter_id"
+  hash_key       = "id"
 
   attribute {
-    name = "alter_id"
+    name = "id"
     type = "N"
   }
 }
@@ -33,10 +33,10 @@ resource "aws_dynamodb_table" "mox_galleria_mtg_cards" {
   billing_mode   = "PROVISIONED"
   read_capacity  = "1"
   write_capacity = "1"
-  hash_key       = "card_id"
+  hash_key       = "id"
 
   attribute {
-    name = "card_id"
+    name = "id"
     type = "S"
   }
 }

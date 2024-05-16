@@ -11,7 +11,7 @@ const response = (statusCode, body, headers = {}, isBase64Encoded = false) => ({
 });
 
 export const getMtgCard = async (event) => {
-  const targetCard = event.pathParameters.cardId;
+  const targetCard = event.pathParameters.id;
 
   const db = new CardRepository(MOX_GALLERIA_MTG_CARDS_TABLE, REGION);
 

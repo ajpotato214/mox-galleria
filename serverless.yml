@@ -45,4 +45,4 @@ functions:
     events:
       - http:
           method: GET
-          path: cards/mtg/{cardId}
+          path: cards/mtg/{id}

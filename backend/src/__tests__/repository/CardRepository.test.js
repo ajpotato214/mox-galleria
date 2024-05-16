@@ -47,9 +47,9 @@ describe('CardRepository', () => {
 
     testCardRepository.docddb.on(GetCommand).resolves({
       Item: {
-        card_id: 'd50aee81-ac6b-42cf-84b2-c1cab286bcad',
+        id: 'd50aee81-ac6b-42cf-84b2-c1cab286bcad',
         provider: 'scryfall',
-        metadata: { card_id: 'd50aee81-ac6b-42cf-84b2-c1cab286bcad' },
+        metadata: { id: 'd50aee81-ac6b-42cf-84b2-c1cab286bcad' },
       },
     });
     /*
@@ -58,7 +58,7 @@ describe('CardRepository', () => {
     const status = await testCardRepository.add(
       'd50aee81-ac6b-42cf-84b2-c1cab286bcad',
       'scryfall',
-      { card_id: 'd50aee81-ac6b-42cf-84b2-c1cab286bcad' },
+      { id: 'd50aee81-ac6b-42cf-84b2-c1cab286bcad' },
     );
 
     expect(status.$metadata.httpStatusCode).toBe(200);
@@ -66,20 +66,20 @@ describe('CardRepository', () => {
     const command = new GetCommand({
       TableName: MOX_GALLERIA_MTG_CARDS_TABLE,
       Key: {
-        card_id: 'd50aee81-ac6b-42cf-84b2-c1cab286bcad',
+        id: 'd50aee81-ac6b-42cf-84b2-c1cab286bcad',
       },
     });
 
     const response = await testCardRepository.docddb.send(command);
 
-    expect(response.Item.card_id).toBe('d50aee81-ac6b-42cf-84b2-c1cab286bcad');
+    expect(response.Item.id).toBe('d50aee81-ac6b-42cf-84b2-c1cab286bcad');
     expect(response.Item.provider).toBe('scryfall');
     expect(response.Item.metadata).toStrictEqual({
-      card_id: 'd50aee81-ac6b-42cf-84b2-c1cab286bcad',
+      id: 'd50aee81-ac6b-42cf-84b2-c1cab286bcad',
     });
   });
 
-  test('gets a card from the database by card_id', async () => {
+  test('gets a card from the database by id', async () => {
     /* Mock Responses
     ------------------------------------------------------------------------------------*/
     testCardRepository.docddb.on(PutCommand).resolves({
@@ -90,9 +90,9 @@ describe('CardRepository', () => {
 
     testCardRepository.docddb.on(GetCommand).resolves({
       Item: {
-        card_id: 'd50aee81-ac6b-42cf-84b2-c1cab286bcad',
+        id: 'd50aee81-ac6b-42cf-84b2-c1cab286bcad',
         provider: 'scryfall',
-        metadata: { card_id: 'd50aee81-ac6b-42cf-84b2-c1cab286bcad' },
+        metadata: { id: 'd50aee81-ac6b-42cf-84b2-c1cab286bcad' },
       },
     });
     /*
@@ -101,9 +101,9 @@ describe('CardRepository', () => {
     const command = new PutCommand({
       TableName: MOX_GALLERIA_MTG_CARDS_TABLE,
       Item: {
-        card_id: 'd50aee81-ac6b-42cf-84b2-c1cab286bcad',
+        id: 'd50aee81-ac6b-42cf-84b2-c1cab286bcad',
         provider: 'scryfall',
-        metadata: { card_id: 'd50aee81-ac6b-42cf-84b2-c1cab286bcad' },
+        metadata: { id: 'd50aee81-ac6b-42cf-84b2-c1cab286bcad' },
       },
     });
 
@@ -113,14 +113,14 @@ describe('CardRepository', () => {
       'd50aee81-ac6b-42cf-84b2-c1cab286bcad',
     );
 
-    expect(response.card_id).toBe('d50aee81-ac6b-42cf-84b2-c1cab286bcad');
+    expect(response.id).toBe('d50aee81-ac6b-42cf-84b2-c1cab286bcad');
     expect(response.provider).toBe('scryfall');
     expect(response.metadata).toStrictEqual({
-      card_id: 'd50aee81-ac6b-42cf-84b2-c1cab286bcad',
+      id: 'd50aee81-ac6b-42cf-84b2-c1cab286bcad',
     });
   });
 
-  test('returns null if it could not find a card from the database by card_id', async () => {
+  test('returns null if it could not find a card from the database by id', async () => {
     /* Mock Responses
     ------------------------------------------------------------------------------------*/
     testCardRepository.docddb.on(PutCommand).resolves({
@@ -138,9 +138,9 @@ describe('CardRepository', () => {
     const command = new PutCommand({
       TableName: MOX_GALLERIA_MTG_CARDS_TABLE,
       Item: {
-        card_id: 'd50aee81-ac6b-42cf-84b2-c1cab286bcad',
+        id: 'd50aee81-ac6b-42cf-84b2-c1cab286bcad',
         provider: 'scryfall',
-        metadata: { card_id: 'd50aee81-ac6b-42cf-84b2-c1cab286bcad' },
+        metadata: { id: 'd50aee81-ac6b-42cf-84b2-c1cab286bcad' },
       },
     });
 
