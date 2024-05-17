@@ -45,10 +45,10 @@ functions:
     events:
       - http:
           method: GET
-          path: cards/mtg/{id}
+          path: v1/cards/mtg/{id}
   addMtgAlter:
     handler: backend/src/handler/addMtgAlter.addMtgAlter
     events:
       - http:
           method: POST
-          path: alters/mtg
+          path: v1/alters/mtg
