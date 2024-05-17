@@ -38,7 +38,7 @@ functions:
     handler: backend/src/handler/addMtgCard.addMtgCard
     events:
       - http:
-          method: post
+          method: POST
           path: cards/mtg
   getMtgCard:
     handler: backend/src/handler/getMtgCard.getMtgCard
@@ -46,3 +46,9 @@ functions:
       - http:
           method: GET
           path: cards/mtg/{id}
+  addMtgAlter:
+    handler: backend/src/handler/addMtgAlter.addMtgAlter
+    events:
+      - http:
+          method: POST
+          path: alters/mtg
