@@ -20,7 +20,7 @@ export default class Alter {
           'GIFT',
         )
         .required(),
-      signed_by: Joi.string().allow(null),
+      signed_by: Joi.string().allow(null, ''),
       playset: Joi.array(),
     });
 
