@@ -12,6 +12,7 @@ In the meantime, check out my makeshift album of alters [here at Cube Cobra!](ht
 <img src="./docs/design/img/Brainstorm.png" alt="Brainstorm Alter" height="450"/></br>
 
 📜[Design Doc](./docs/design/designdoc.md)  
+✅ [Trello Board](https://trello.com/b/fiEvzPqV/mox-galleria)  
 ⛳ **Planned Release Date:** TBD
 
 

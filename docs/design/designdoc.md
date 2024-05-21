@@ -25,7 +25,9 @@ The goal is to create a website that showcases my personal collection in _one_ p
 - **Signed Card** - A collectible trading card that has been autographed by the original artist or other noteworthy person
 
 # High-Level Requirements
-More granular requirements such as use cases and user stories will be managed via a more robust tracking system such as Trello or Jira with a link to be provided at a later date.
+More granular requirements such as use cases and user stories will be managed via Trello:
+
+[Mox Galleria Trello Board](https://trello.com/b/fiEvzPqV/mox-galleria)
 
 ## Functional Requirements
 1. A user should be able to view the collection via various view styles including: Gallery view, List view, Magazine View.
