@@ -32,6 +32,9 @@ provider:
           Resource: 
             - arn:aws:dynamodb:*:*:table/mox_galleria*
             - arn:aws:dynamodb:*:*:global-table/mox_galleria*
+  apiGateway:
+    apiKeys:
+      - admin
 
 functions:
   addMtgCard:
@@ -39,7 +42,8 @@ functions:
     events:
       - http:
           method: POST
-          path: cards/mtg
+          private: true
+          path: v1/cards/mtg
   getMtgCard:
     handler: backend/src/handler/getMtgCard.getMtgCard
     events:
@@ -51,4 +55,5 @@ functions:
     events:
       - http:
           method: POST
+          private: true
           path: v1/alters/mtg
